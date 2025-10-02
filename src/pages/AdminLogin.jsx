@@ -55,13 +55,25 @@ function AdminLogin() {
     <div className="min-h-screen bg-gradient-to-br from-white via-green-50 to-white flex items-center justify-center p-4">
       <Card className="w-full max-w-md border-green-200 shadow-xl">
         <CardHeader className="text-center pb-4">
-          <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-            <Shield className="w-8 h-8 text-green-600" />
+          <div className="mb-6 flex justify-center">
+            <Logo 
+              showIcon={false}
+              className="h-12 w-auto mx-auto" 
+              textClassName="text-lg font-bold text-gray-900"
+              showText={true}
+            />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
+          <div className="mx-auto w-16 h-16  border-green-200 border  overflow-hidden rounded-full flex items-center justify-center mb-4 p-2">
+            <Logo 
+              className="object-cover w-full h-full" 
+              textClassName="hidden"
+              showText={false}
+            />
+          </div>
+          {/* <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
           <CardDescription className="text-gray-600">
             Sign in to access the BridgeX admin dashboard
-          </CardDescription>
+          </CardDescription> */}
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -136,14 +148,7 @@ function AdminLogin() {
           </form>
           
           <div className="mt-6 pt-4 border-t border-gray-200">
-            <div className="text-center">
-              <Logo 
-                className="h-12 w-auto mx-auto" 
-                textClassName="text-lg font-bold text-gray-900"
-                showText={true}
-              />
-            </div>
-            <p className="text-xs text-gray-500 text-center mt-2">
+            <p className="text-xs text-gray-500 text-center">
               BridgeX Admin Portal
             </p>
           </div>
