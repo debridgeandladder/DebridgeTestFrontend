@@ -1,0 +1,4 @@
+/* Landing page specific styles */
+.bg-primary-gradient {
+  background-image: radial-gradient(circle at bottom right, #008000, #00ff00);
+}
