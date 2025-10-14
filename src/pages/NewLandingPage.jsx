@@ -109,6 +109,14 @@ export default function NewLandingPage() {
       setIsSubmitting(false);
     }
   };
+  const handleShowWaitlist = () => {
+    const waitlistSection = document.getElementById('waitlist');
+    if (waitlistSection) {
+      waitlistSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/#waitlist');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAF9] overflow-hidden">
@@ -153,7 +161,7 @@ export default function NewLandingPage() {
 
         <div className="relative z-10  max-w-6xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="relative translate-x-[-30px] h-20 mb-8">
+            <div className="relative translate-x-[-30px] h-20 mb-8" onClick={handleShowWaitlist}>
               {[{ Icon: Users, x: -60 }, { Icon: Shield, x: 0 }, { Icon: Zap, x: 60 }].map(({ Icon, x }, i) => (
                 <motion.div
                   key={i}
@@ -163,8 +171,8 @@ export default function NewLandingPage() {
                   animate={{ opacity: 1, y: [0, -10, 0] }}
                   transition={{ opacity: { delay: i * 0.2 }, y: { duration: 2, repeat: Infinity, delay: i * 0.2 } }}
                 >
-                  <div className="w-16 h-16 bg-green-100 backdrop-blur-md rounded-2xl flex items-center justify-center border border-green-200">
-                    <Icon className="w-8 h-8 text-green-600" />
+                  <div className="w-16 h-16 bg-green-500/25 backdrop-blur-md rounded-2xl flex shadow-xl items-center justify-center border-r-2 border-b-2 border-green-600">
+                    <Icon className="w-8 h-8 text-green-600/60" />
                   </div>
                 </motion.div>
               ))}
@@ -319,6 +327,8 @@ The revolutionary digital marketplace where service users get free lifetime acce
       {/* Join Waitlist */}
       <Section id="waitlist" className=" z-50 bg-white relative">
         {/* Hero-like animated radial background for waitlist, opacity increases on scroll */}
+
+<img src="bridgge.png" alt="Deck Arch Bridge" className='absolute w-[150%] bottom-0 left-0 object-cover h-auto opacity-5'/>
         <motion.div
           className="absolute inset-0 -z-10 pointer-events-none"
           style={{ opacity: waitlistBgOpacity }}
