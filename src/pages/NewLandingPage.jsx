@@ -1,3 +1,4 @@
+
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
@@ -45,7 +46,7 @@ export default function NewLandingPage() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { scrollYProgress } = useScroll();
-  
+  const [serviceType,setServiceType] = useState();
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
@@ -80,6 +81,8 @@ export default function NewLandingPage() {
   const handleWaitlistSubmit = (e) => {
     e.preventDefault();
     if (!validateInput(formData.contact)) return;
+if(serviceType)
+return handleSubmit(serviceType);
     setShowUserTypeModal(true);
   };
 
@@ -284,12 +287,14 @@ The revolutionary digital marketplace where service users get free lifetime acce
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {[
             {
+type:'user',
               title: 'For Service Users',
               icon: Users,
               color: '#22C55E',
               benefits: ['Free lifetime access', 'Verified professionals only', 'Real-time matching', 'Secure payments'],
             },
             {
+type:'provider',
               title: 'For Service Providers',
               icon: TrendingUp,
               color: '#FACC15',
@@ -299,11 +304,15 @@ The revolutionary digital marketplace where service users get free lifetime acce
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
+onClick={()=>{
+ setServiceType(card.type);
+ handleShowWaitlist();
+}}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
             >
-              <Card className="border-2 hover:border-[#22C55E]/30 transition-all h-full">
+              <Card className= {` border-2 hover:border-[#22C55E]/30 transition-all h-full ${serviceType===card.type&&'border-green-600'}`}>
                 <CardContent className="p-8">
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6" style={{ backgroundColor: `${card.color}20` }}>
                     <card.icon className="w-8 h-8" style={{ color: card.color }} />
@@ -368,7 +377,7 @@ The revolutionary digital marketplace where service users get free lifetime acce
           <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
             Be among the first to experience Nigeria's most innovative service marketplace
           </p>
-
+ {serviceType&& <Badge text={`Service ${serviceType.at(0).toUpperCase()+serviceType.slice(1)}`} />}
           {/* Width scales from edge-to-edge to target width as the section enters viewport */}
           <motion.div className="mx-auto w-[42rem] max-w-[95%]" >
           <motion.form 
