@@ -1,0 +1,13 @@
+# Blender MTL File: '3d Nigeria.blend'
+# Material Count: 1
+
+newmtl Material
+Ns 307.843137
+Ka 0.475138 0.475138 0.475138
+Kd 0.640000 0.640000 0.640000
+Ks 0.513812 0.513812 0.513812
+Ke 0.400000 0.400000 0.400000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd ./flag.png

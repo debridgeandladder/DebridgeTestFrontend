@@ -9,8 +9,12 @@ import { CheckCircle, Users, Zap, Shield, ArrowRight, Phone, Mail, Settings } fr
 import { motion, AnimatePresence } from 'framer-motion'
 import Logo from '@/components/Logo.jsx'
 import './LandingPage.css'
+import { api } from '@/lib/api-layer.js'
+import { useNavigate } from 'react-router-dom'
+
 
 function LandingPage() {
+const navigate = useNavigate()
   const [formData, setFormData] = useState({
     contact: '',
     userType: '',
@@ -34,24 +38,21 @@ function LandingPage() {
     setShowUserTypeModal(true)
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (formData) => {
     if (!formData.contact || !formData.userType) return
     
     setIsLoading(true)
     
     try {
-      // Import API dynamically to avoid circular dependencies
-      const { api } = await import('@/lib/api-layer.js')
-      
       const response = await api.joinWaitlist({
         contact: formData.contact,
         userType: formData.userType,
         timestamp: new Date().toISOString(),
-        source: 'BridgeX Waitlist'
+        location: 'Nigeria',
       })
       
       if (response.success) {
-        setFormData(prev => ({ ...prev, isSubmitted: true }))
+        navigate('/success', { state: { contact: formData.contact } })
       } else {
         throw new Error('Form submission failed')
       }
@@ -59,7 +60,6 @@ function LandingPage() {
       console.error('Error submitting form:', error)
 
       // TODO: Show error message
-      setFormData(prev => ({ ...prev, isSubmitted: true }))
     }
     
     setIsLoading(false)
@@ -72,7 +72,7 @@ function LandingPage() {
   const selectUserType = (type) => {
     setFormData(prev => ({ ...prev, userType: type }))
     setShowUserTypeModal(false)
-    handleSubmit()
+    handleSubmit({...formData, userType: type})
   }
 
   if (formData.isSubmitted) {
@@ -302,7 +302,7 @@ function LandingPage() {
                     placeholder="Enter your email or phone number"
                     value={formData.contact}
                     onChange={handleInputChange}
-                    className="h-16 px-6 text-2xl! border-white/20 bg-white/10 text-white placeholder:text-white/70 focus:border-white/50 focus:ring-white/20 rounded-l-xl rounded-r-none"
+                    className="h-16 px-6 text-2xl! border-white/40 bg-white/20 text-white placeholder:text-white/70 focus:border-white/50 focus:ring-white/20 rounded-l-xl rounded-r-none"
                     required
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2">

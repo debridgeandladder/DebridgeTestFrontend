@@ -4,18 +4,13 @@ export const endpoints = {
   auth: {
     login: '/admin/signin',
     signup: '/admin/signup',
-    logout: '/admin/logout',
-    profile: '/admin/profile',
-    refresh: '/admin/refresh'
   },
   
   // Contacts endpoints
   contacts: {
     create: '/contacts',
     getAll: '/get-contacts',
-    getById: (id) => `/contacts/${id}`,
-    update: (id) => `/contacts/${id}`,
-    delete: (id) => `/contacts/${id}`
+    single: (id) => `/contacts/${id}`,
   }
 }
 
@@ -25,8 +20,6 @@ export const openEndpoints = [
   '/admin/signup',
   '/contacts',
   '/contacts/',
-
-
 ]
 
 export default endpoints;

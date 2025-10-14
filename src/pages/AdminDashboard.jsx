@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge.jsx'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.jsx'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog.jsx'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { 
   Users, 
@@ -25,6 +26,8 @@ import Logo from '@/components/Logo.jsx'
 import { api } from '@/lib/api-layer.js'
 import { authService } from '@/lib/authService.js'
 import { toast } from 'react-toastify'
+import { MailIcon } from 'lucide-react'
+import { PhoneIcon } from 'lucide-react'
 
 function AdminDashboard() {
   const navigate = useNavigate()
@@ -45,6 +48,10 @@ function AdminDashboard() {
     totalPages: 0
   })
 
+  // Delete confirmation state
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [deletingMember, setDeletingMember] = useState(null)
+
   const fetchWaitlistData = async () => {
     setLoading(true)
     try {
@@ -61,6 +68,26 @@ function AdminDashboard() {
       console.error('Error fetching waitlist data:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const openDeleteConfirm = (member) => {
+    setDeletingMember(member)
+    setConfirmOpen(true)
+  }
+
+  const handleDeleteConfirmed = async () => {
+    if (!deletingMember) return
+    try {
+      await api.deleteContact(deletingMember.id)
+      toast.success('Contact deleted')
+      setConfirmOpen(false)
+      setDeletingMember(null)
+      fetchWaitlistData()
+      fetchStats()
+    } catch (error) {
+      console.error('Delete error:', error)
+      toast.error('Failed to delete contact')
     }
   }
 
@@ -115,11 +142,11 @@ function AdminDashboard() {
   }
 
   const getContactIcon = (contact) => {
-    return contact.includes('@') ? '📧' : '📱'
+    return contact.includes('@') ? <MailIcon /> : <PhoneIcon />
   }
 
   const getContactDisplay = (member) => {
-    return member.email || member.phone || 'N/A'
+    return member.contact || 'N/A'
   }
 
   const getUserTypeDisplay = (member) => {
@@ -171,7 +198,16 @@ function AdminDashboard() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      
+
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="waitlist">Waitlist Management</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="border-green-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -218,14 +254,6 @@ function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
-
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="waitlist">Waitlist Management</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-6">
             {/* Registration Trends Chart */}
             <Card className="border-green-200">
               <CardHeader>
@@ -349,6 +377,7 @@ function AdminDashboard() {
                             <TableHead className="text-green-800">Type</TableHead>
                             <TableHead className="text-green-800">Joined</TableHead>
                             <TableHead className="text-green-800">Source</TableHead>
+                            <TableHead className="text-green-800 text-right">Actions</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -376,6 +405,16 @@ function AdminDashboard() {
                               </TableCell>
                               <TableCell className="text-gray-600">
                                 {member.location || 'Nigeria'}
+                              </TableCell>
+                              <TableCell className="text-right">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => openDeleteConfirm(member)}
+                                  className="border-red-200 text-red-600 hover:bg-red-50"
+                                >
+                                  Delete
+                                </Button>
                               </TableCell>
                             </TableRow>
                           ))}
@@ -423,6 +462,22 @@ function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="sm:max-w-[420px]">
+          <DialogHeader>
+            <DialogTitle>Delete contact?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently remove
+              {deletingMember ? ` ${getContactDisplay(deletingMember)}` : ' this contact'} from the waitlist.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-end gap-3 pt-2">
+            <Button variant="outline" onClick={() => setConfirmOpen(false)}>Cancel</Button>
+            <Button onClick={handleDeleteConfirmed} className="bg-red-600 hover:bg-red-700 text-white">Delete</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

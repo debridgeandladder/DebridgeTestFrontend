@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import endpoints, { openEndpoints } from './endpoints';
 import tokenService from './tokenService';
 
-export const API_BASE_URL = 'https://vbs71jmn-3000.uks1.devtunnels.ms/api';
+export const API_BASE_URL = import.meta.env.VITE_PUBLIC_API_BASE_URL;
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,

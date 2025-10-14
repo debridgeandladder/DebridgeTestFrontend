@@ -1,14 +1,16 @@
 import apiClient from './apiClient';
 import endpoints from './endpoints';
 
+export const BLANK_PHONE = '----------'
+export const BLANK_EMAIL = '---------@gmail.com'
 export const api = {
   // Join waitlist
   async joinWaitlist(data) {
     try {
       const response = await apiClient.post(endpoints.contacts.create, {
-        email: data.contact.includes('@') ? data.contact : '',
-        phone: !data.contact.includes('@') ? data.contact : '',
-        location: 'Nigeria', // Default location
+        email: data.contact.includes('@') ? data.contact : BLANK_EMAIL,
+        phone: !data.contact.includes('@') ? data.contact : BLANK_PHONE,
+        location: data.location||'Nigeria', 
         servicestype: data.userType === 'user' ? 'serviceUser' : 'serviceProvider'
       });
       
@@ -28,12 +30,16 @@ export const api = {
     try {
       const response = await apiClient.get(endpoints.contacts.getAll);
       let data = response.data;
-      
+      data = data.map(item => {
+        return {
+          ...item,
+          contact: item.phone!==BLANK_PHONE?item.phone:item.email
+        };
+      });
       // Apply search filter
       if (search) {
         data = data.filter(item => 
-          (item.email && item.email.toLowerCase().includes(search.toLowerCase())) ||
-          (item.phone && item.phone.includes(search))
+          (item.contact && item.contact.toLowerCase().includes(search.toLowerCase()))
         );
       }
       
@@ -69,7 +75,13 @@ export const api = {
   async getWaitlistStats() {
     try {
       const response = await apiClient.get(endpoints.contacts.getAll);
-      const data = response.data;
+      let data = response.data;
+      data = data.map(item => {
+        return {
+          ...item,
+          contact: item.phone!==BLANK_PHONE?item.phone:item.email
+        };
+      });
       
       const total = data.length;
       const users = data.filter(item => item.servicestype === 'serviceUser').length;
@@ -112,7 +124,7 @@ export const api = {
   // Get contact by ID
   async getContactById(id) {
     try {
-      const response = await apiClient.get(endpoints.contacts.getById(id));
+      const response = await apiClient.get(endpoints.contacts.single(id));
       return {
         success: true,
         data: response.data
@@ -126,7 +138,7 @@ export const api = {
   // Update contact
   async updateContact(id, data) {
     try {
-      const response = await apiClient.put(endpoints.contacts.update(id), data);
+      const response = await apiClient.put(endpoints.contacts.single(id), data);
       return {
         success: true,
         data: response.data
@@ -140,7 +152,7 @@ export const api = {
   // Delete contact
   async deleteContact(id) {
     try {
-      await apiClient.delete(endpoints.contacts.delete(id));
+      await apiClient.delete(endpoints.contacts.single(id));
       return {
         success: true,
         message: 'Contact deleted successfully'

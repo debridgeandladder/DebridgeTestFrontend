@@ -1,18 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import LandingPage from '@/pages/LandingPage.jsx'
+import NewLandingPage from '@/pages/NewLandingPage.jsx'
 import AdminLogin from '@/pages/AdminLogin.jsx'
 import AdminDashboard from '@/pages/AdminDashboard.jsx'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
 import './App.css'
+import SuccessPage from '@/pages/SuccessPage.jsx'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<NewLandingPage />} />
+        <Route path="/new" element={<NewLandingPage />} />
         <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/success" element={<SuccessPage />} />
         <Route 
           path="/admin/dashboard" 
           element={

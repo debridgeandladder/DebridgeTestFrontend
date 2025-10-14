@@ -4,21 +4,21 @@ const REFRESH_TOKEN_KEY = 'refresh_token';
 
 export const tokenService = {
   getAccessToken() {
-    return sessionStorage.getItem(ACCESS_TOKEN_KEY);
+    return window.sessionStorage.getItem(ACCESS_TOKEN_KEY);
   },
 
   getRefreshToken() {
-    return sessionStorage.getItem(REFRESH_TOKEN_KEY);
+    return window.sessionStorage.getItem(REFRESH_TOKEN_KEY);
   },
 
   setTokens(accessToken, refreshToken) {
-    sessionStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-    sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    window.sessionStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+    window.sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   },
 
   clearTokens() {
-    sessionStorage.removeItem(ACCESS_TOKEN_KEY);
-    sessionStorage.removeItem(REFRESH_TOKEN_KEY);
+    window.sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+    window.sessionStorage.removeItem(REFRESH_TOKEN_KEY);
   },
 
   isAuthenticated() {
