@@ -151,15 +151,15 @@ export default function NewLandingPage() {
         </div>
 
         <header className="absolute top-0 left-0 right-0 z-50 px-6 py-6">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="max-w-7xl mx-auto flex justify-between max-sm:flex-col items-center">
             <Logo className="h-10 text-gray-600" textClassName='!text-[#22C55E] font-bold text-3xl' />
-            <Button variant="ghost" className="text-gray-600 text-lg hover:bg-green-600 hover:text-white backdrop-blur-sm border border-gray-300">
-              Coming Soon
+            <Button variant="ghost" className="text-gray-600 text-lg hover:bg-green-600 hover:text-white backdrop-blur-sm  sm:border border-gray-300">
+              Coming Soon!
             </Button>
           </div>
         </header>
 
-        <div className="relative z-10  max-w-6xl mx-auto text-center">
+        <div className="relative z-10 max-sm:mt-32  max-w-6xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="relative translate-x-[-30px] h-20 mb-8" onClick={handleShowWaitlist}>
               {[{ Icon: Users, x: -60 }, { Icon: Shield, x: 0 }, { Icon: Zap, x: 60 }].map(({ Icon, x }, i) => (
@@ -178,7 +178,7 @@ export default function NewLandingPage() {
               ))}
             </div>
 
-            <h1 className="text-6xl md:text-8xl font-bold text-gray-600 leading-[1.1] mb-6">
+            <h1 className="text-4xl px-2 md:text-6xl lg:text-8xl font-bold text-gray-600 leading-[1.1] mb-6">
               Connecting 
               <span className="bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent"> Users </span>
               and
@@ -186,7 +186,7 @@ export default function NewLandingPage() {
               <br />Across Nigeria
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto font-light mb-8">
+            <p className="text-lg px-2 md:text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto font-light mb-8">
 The revolutionary digital marketplace where service users get free lifetime access to trusted providers, and service providers connect with new customers.
               {/* Where users meet verified professionals<br /> */}
               {/* <span className="text-[#FACC15] font-medium">Join 10,000+ Nigerians building the future.</span> */}
@@ -199,7 +199,7 @@ The revolutionary digital marketplace where service users get free lifetime acce
         </div>
 
         <motion.div
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
+          className="absolute bottom-12 max-md:hidden left-1/2 -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -222,10 +222,10 @@ The revolutionary digital marketplace where service users get free lifetime acce
             transition={{ duration: 0.8 }}
           >
             <Badge text="Our Vision" />
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-600 mb-6 leading-tight">
+            <h2 className="text-4xl md:text-6xl font-bold text-gray-600 mb-6 leading-tight">
               Connecting Every Corner of Nigeria
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed mb-8">
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-8">
               From Lagos to Kano, Abuja to Port Harcourt — BridgeX is building 
               Nigeria's largest verified network of service providers and users.
             </p>
@@ -276,7 +276,7 @@ The revolutionary digital marketplace where service users get free lifetime acce
       <Section className="bg-gradient-to-b from-[#FAFAF9] to-white">
         <div className="text-center mb-16">
           <Badge text="For Everyone" />
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-600 mb-6">
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-600 mb-6">
             Built for Users & Providers
           </h2>
         </div>
@@ -359,13 +359,13 @@ The revolutionary digital marketplace where service users get free lifetime acce
         <div ref={waitlistRef} className=" relative max-w-4xl mx-auto text-center">
             
           {/* <Badge text="Join Today" className="bg-green-100 text-green-800 border-green-200" /> */}
-          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-gray-600">
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 text-gray-600">
             Ready to Join the<br />
             <span className="bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">
               Future of Services?
             </span>
           </h2>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
             Be among the first to experience Nigeria's most innovative service marketplace
           </p>
 
@@ -459,7 +459,7 @@ The revolutionary digital marketplace where service users get free lifetime acce
       <Section className="bg-white">
         <div className="text-center mb-20">
           {/* <Badge text="Simple Process" className="bg-green-100 text-green-800 border-green-200" /> */}
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-600 mb-6">Why choose BridgeX</h2>
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-600 mb-6">Why choose BridgeX</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
