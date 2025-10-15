@@ -626,9 +626,7 @@ onClick={()=>{
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div>
-              <Link to='/admin'>
                 <Logo className="h-10 " />
-              </Link>
               <p className="text-white/70 mt-6">Connecting Nigeria, one service at a time.</p>
             </div>
             <div>
