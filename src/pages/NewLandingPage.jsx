@@ -16,6 +16,7 @@ import Nigeria3DModel from '@/components/Nigeria3DModel';
 import { cn } from '@/lib/utils';
 import { ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 // Reusable Section Component
 const Section = ({ children, id, className = '' }) => (
@@ -40,13 +41,18 @@ const Badge = ({ text, dark = false }) => (
 
 export default function NewLandingPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ contact: '', userType: '' });
+  const [formData, setFormData] = useState({ contact: '', userType: '', location: 'Select location' });
   const [isLoading, setIsLoading] = useState(false);
   const [showUserTypeModal, setShowUserTypeModal] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
+  const [isLocationInvalid, setIsLocationInvalid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { scrollYProgress } = useScroll();
-  const [serviceType,setServiceType] = useState();
+  const [serviceType, setServiceType] = useState();
+  
+  const nigerianStates = [
+    'Select location', 'Lagos', 'Abuja', 'Port Harcourt', 'Other',
+  ];
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
@@ -78,12 +84,31 @@ export default function NewLandingPage() {
     return isValid;
   };
 
+  const validateForm = () => {
+    const isContactValid = validateInput(formData.contact);
+    const isLocationValid = formData.location && formData.location !== 'Select location';
+    
+    if (!isLocationValid) {
+      setIsLocationInvalid(true);
+      setTimeout(() => setIsLocationInvalid(false), 1000);
+      toast.error('Please select a location');
+      return false;
+    }
+    
+    if (!isContactValid) return false;
+    
+    return true;
+  };
+
   const handleWaitlistSubmit = (e) => {
     e.preventDefault();
-    if (!validateInput(formData.contact)) return;
-if(serviceType)
-return handleSubmit(serviceType);
-    setShowUserTypeModal(true);
+    if (!validateForm()) return;
+    
+    if (serviceType) {
+      handleSubmit(serviceType);
+    } else {
+      setShowUserTypeModal(true);
+    }
   };
 
   const handleSubmit = async (userType) => {
@@ -97,7 +122,7 @@ return handleSubmit(serviceType);
         contact: formData.contact,
         userType,
         timestamp: new Date().toISOString(),
-        location: 'Nigeria',
+        location: formData.location,
       });
       
       toast.success('Successfully joined the waitlist!');
@@ -388,7 +413,59 @@ onClick={()=>{
               transition: { duration: 0.4 }
             } : {}}
           >
-            <div className="relative group">
+            <div className= " my-4  w-full">
+            <motion.div
+              className="relative group"
+              animate={isLocationInvalid ? { 
+                x: [0, -5, 5, -5, 0],
+                transition: { duration: 0.4 }
+              } : {}}
+            >
+              <div className={`absolute -inset-1 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl opacity-20 blur transition-all duration-300 ${
+                isLocationInvalid ? '!from-red-400 !to-red-600' : ''
+              }`} />
+              <div className={`relative bg-white rounded-2xl border-2 overflow-hidden transition-all duration-300 shadow-sm ${
+                isLocationInvalid 
+                  ? 'border-red-400/50' 
+                  : 'border-green-200 hover:border-green-500'
+              }`}>
+                <Select
+                  value={formData.location}
+                  onValueChange={(value) => {
+                    setFormData({...formData, location: value});
+                    if (isLocationInvalid) setIsLocationInvalid(false);
+                  }}
+                >
+                  <SelectTrigger className="w-full min-h-[50px] rounded-xl border-0 text-left pl-6 pr-10 text-base text-gray-600">
+                    <SelectValue placeholder="Select a location" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-gray-200">
+                    {nigerianStates.map((state) => (
+                      <SelectItem 
+                        key={state} 
+                        value={state} 
+                        className={`cursor-pointer hover:bg-gray-100 ${
+                          state === 'Select location' ? 'text-gray-400' : ''
+                        }`}
+                      >
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* {isLocationInvalid && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute -bottom-6 left-0 right-0 text-center text-red-500 text-sm font-medium"
+                >
+                  Please select a location
+                </motion.div>
+              )} */}
+            </motion.div>
+</div>
+            <div className="relative group mt-4">
               <div className={`absolute -inset-1 bg-gradient-to-r from-green-600 to-green-700 rounded-3xl opacity-20 blur transition-all duration-300 ${
                 isInvalid ? '!from-red-400 !to-red-600' : ''
               }`} />
@@ -589,34 +666,37 @@ onClick={()=>{
             </div>
           ) : (
             <div className="grid gap-6 py-4">
-              <div className="grid grid-cols-1 gap-4">
-                <button
-                  onClick={() => handleSubmit('provider')}
-                  disabled={isLoading}
-                  className="group relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-green-600 hover:bg-green-600 transition-colors duration-200"
-                >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 group-hover:bg-white/20 group-hover:text-white mb-3">
-                    <User className="w-6 h-6" />
-                  </div>
-                  <span className="text-lg font-medium text-gray-600 group-hover:text-white">I'm a Service Provider</span>
-                  <p className="text-sm text-gray-500 group-hover:text-white/80 text-center mt-1">
-                    List and offer your services
-                  </p>
-                </button>
+              <div className="space-y-4">
 
-                <button
-                  onClick={() => handleSubmit('user')}
-                  disabled={isLoading}
-                  className="group relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-green-600 hover:bg-green-600 transition-colors duration-200"
-                >
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 group-hover:bg-white/20 group-hover:text-white mb-3">
-                    <Users className="w-6 h-6" />
-                  </div>
-                  <span className="text-lg font-medium text-gray-600 group-hover:text-white">I Need a Service</span>
-                  <p className="text-sm text-gray-500 group-hover:text-white/80 text-center mt-1">
-                    Find trusted service providers
-                  </p>
-                </button>
+                <div className="grid grid-cols-1 gap-4 pt-2">
+                  <button
+                    onClick={() => handleSubmit('provider')}
+                    disabled={isLoading}
+                    className="group relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-green-600 hover:bg-green-600 transition-colors duration-200"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 group-hover:bg-white/20 group-hover:text-white mb-3">
+                      <User className="w-6 h-6" />
+                    </div>
+                    <span className="text-lg font-medium text-gray-600 group-hover:text-white">I'm a Service Provider</span>
+                    <p className="text-sm text-gray-500 group-hover:text-white/80 text-center mt-1">
+                      List and offer your services
+                    </p>
+                  </button>
+
+                  <button
+                    onClick={() => handleSubmit('user')}
+                    disabled={isLoading}
+                    className="group relative flex flex-col items-center justify-center p-6 rounded-xl border-2 border-green-600 hover:bg-green-600 transition-colors duration-200"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 group-hover:bg-white/20 group-hover:text-white mb-3">
+                      <Users className="w-6 h-6" />
+                    </div>
+                    <span className="text-lg font-medium text-gray-600 group-hover:text-white">I Need a Service</span>
+                    <p className="text-sm text-gray-500 group-hover:text-white/80 text-center mt-1">
+                      Find trusted service providers
+                    </p>
+                  </button>
+                </div>
               </div>
               
               <p className="text-xs text-center text-gray-400 mt-2">
