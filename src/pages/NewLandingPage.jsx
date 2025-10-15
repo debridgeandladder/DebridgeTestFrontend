@@ -550,23 +550,9 @@ onClick={()=>{
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div>
               <Link to='/admin'>
-              <Logo className="h-10 " />
-</Link>
+                <Logo className="h-10 " />
+              </Link>
               <p className="text-white/70 mt-6">Connecting Nigeria, one service at a time.</p>
-            </div>
-            <div>
-              <h3 className="font-bold mb-6">Product</h3>
-              <ul className="space-y-3">
-                <li><a href="#features" className="text-white/70 hover:text-white transition">Features</a></li>
-                <li><a href="#waitlist" className="text-white/70 hover:text-white transition">Pricing</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold mb-6">Company</h3>
-              <ul className="space-y-3">
-                <li><a href="#about" className="text-white/70 hover:text-white transition">About Us</a></li>
-                <li><a href="#contact" className="text-white/70 hover:text-white transition">Contact</a></li>
-              </ul>
             </div>
             <div>
               <h3 className="font-bold mb-6">Join Us</h3>
