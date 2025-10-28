@@ -9,13 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog.jsx'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { 
-  Users, 
-  UserCheck, 
-  UserPlus, 
-  RefreshCw, 
-  Search, 
-  ChevronLeft, 
+import {
+  Users,
+  UserCheck,
+  UserPlus,
+  RefreshCw,
+  Search,
+  ChevronLeft,
   ChevronRight,
   BarChart3,
   TrendingUp,
@@ -61,7 +61,7 @@ function AdminDashboard() {
         search: searchTerm,
         userType: userTypeFilter
       })
-      
+
       setWaitlistData(response.data)
       setPagination(response.pagination)
     } catch (error) {
@@ -198,7 +198,7 @@ function AdminDashboard() {
 
       <div className="container mx-auto px-4 py-8">
         {/* Stats Cards */}
-      
+
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
@@ -207,53 +207,53 @@ function AdminDashboard() {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border-green-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="h-4 w-4 text-green-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">{stats.total}</div>
-              <p className="text-xs text-gray-500">All waitlist members</p>
-            </CardContent>
-          </Card>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <Card className="border-green-200">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                  <Users className="h-4 w-4 text-green-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-green-600">{stats.total}</div>
+                  <p className="text-xs text-gray-500">All waitlist members</p>
+                </CardContent>
+              </Card>
 
-          <Card className="border-green-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Service Users</CardTitle>
-              <UserCheck className="h-4 w-4 text-blue-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{stats.users}</div>
-              <p className="text-xs text-gray-500">Looking for services</p>
-            </CardContent>
-          </Card>
+              <Card className="border-green-200">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Service Users</CardTitle>
+                  <UserCheck className="h-4 w-4 text-blue-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-blue-600">{stats.users}</div>
+                  <p className="text-xs text-gray-500">Looking for services</p>
+                </CardContent>
+              </Card>
 
-          <Card className="border-green-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Service Providers</CardTitle>
-              <UserPlus className="h-4 w-4 text-purple-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-purple-600">{stats.providers}</div>
-              <p className="text-xs text-gray-500">Offering services</p>
-            </CardContent>
-          </Card>
+              <Card className="border-green-200">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Service Providers</CardTitle>
+                  <UserPlus className="h-4 w-4 text-purple-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-purple-600">{stats.providers}</div>
+                  <p className="text-xs text-gray-500">Offering services</p>
+                </CardContent>
+              </Card>
 
-          <Card className="border-green-200">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Registrations</CardTitle>
-              <TrendingUp className="h-4 w-4 text-orange-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-orange-600">
-                {stats.dailyStats[stats.dailyStats.length - 1]?.count || 0}
-              </div>
-              <p className="text-xs text-gray-500">New signups today</p>
-            </CardContent>
-          </Card>
-        </div>
+              <Card className="border-green-200">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Today's Registrations</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-orange-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-orange-600">
+                    {stats.dailyStats[stats.dailyStats.length - 1]?.count || 0}
+                  </div>
+                  <p className="text-xs text-gray-500">New signups today</p>
+                </CardContent>
+              </Card>
+            </div>
             {/* Registration Trends Chart */}
             <Card className="border-green-200">
               <CardHeader>
@@ -270,24 +270,24 @@ function AdminDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={stats.dailyStats}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis 
-                        dataKey="date" 
+                      <XAxis
+                        dataKey="date"
                         tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       />
                       <YAxis />
-                      <Tooltip 
-                        labelFormatter={(value) => new Date(value).toLocaleDateString('en-US', { 
-                          weekday: 'long', 
-                          year: 'numeric', 
-                          month: 'long', 
-                          day: 'numeric' 
+                      <Tooltip
+                        labelFormatter={(value) => new Date(value).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
                         })}
                         formatter={(value) => [value, 'Registrations']}
                       />
-                      <Line 
-                        type="monotone" 
-                        dataKey="count" 
-                        stroke="#16a34a" 
+                      <Line
+                        type="monotone"
+                        dataKey="count"
+                        stroke="#16a34a"
                         strokeWidth={3}
                         dot={{ fill: '#16a34a', strokeWidth: 2, r: 4 }}
                         activeDot={{ r: 6, stroke: '#16a34a', strokeWidth: 2 }}
@@ -390,10 +390,10 @@ function AdminDashboard() {
                                 </div>
                               </TableCell>
                               <TableCell>
-                                <Badge 
+                                <Badge
                                   variant={getUserTypeBadgeVariant(member)}
-                                  className={member.servicestype === 'serviceUser' 
-                                    ? 'bg-blue-100 text-blue-800 border-blue-200' 
+                                  className={member.servicestype === 'serviceUser'
+                                    ? 'bg-blue-100 text-blue-800 border-blue-200'
                                     : 'bg-purple-100 text-purple-800 border-purple-200'
                                   }
                                 >
@@ -482,5 +482,4 @@ function AdminDashboard() {
   )
 }
 
-export d
-efault AdminDashboard
+export default AdminDashboard
