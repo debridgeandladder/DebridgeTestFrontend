@@ -482,4 +482,5 @@ function AdminDashboard() {
   )
 }
 
-export default AdminDashboard
+export d
+efault AdminDashboard

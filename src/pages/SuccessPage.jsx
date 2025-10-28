@@ -13,7 +13,7 @@ export default function SuccessPage() {
   const [showConfetti, setShowConfetti] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Get contact info from location state or use a default
   const contactInfo = location.state?.contact || 'your contact method';
   const isEmail = contactInfo.includes('@');
@@ -36,11 +36,13 @@ export default function SuccessPage() {
       setShowConfetti(false);
     }, 5000);
 
+    navigate("#");
     return () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(timer);
     };
   }, []);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 flex items-center justify-center p-6 relative overflow-hidden">
@@ -54,7 +56,7 @@ export default function SuccessPage() {
           zIndex={9999}
         />
       )}
-      
+
       <div className="relative w-full max-w-2xl">
         <Card className="border-0 shadow-2xl overflow-hidden">
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 py-12 px-8 text-center">
@@ -68,7 +70,7 @@ export default function SuccessPage() {
               You're now on the waitlist for Nigeria's next-gen service platform
             </p>
           </div>
-          
+
           <CardContent className="p-8 text-center">
             <div className="space-y-6 max-w-2xl mx-auto">
               <div className="bg-green-50 p-6 rounded-xl border border-green-100">
@@ -76,23 +78,23 @@ export default function SuccessPage() {
                   What Happens Next?
                 </h3>
                 <p className="text-gray-600 mb-6">
-                  We'll be in touch at <span className="font-semibold">{contactInfo}</span> when we launch in your area. 
+                  We'll be in touch at <span className="font-semibold">{contactInfo}</span> when we launch in your area.
                   Get ready to experience seamless service connections like never before!
                 </p>
-                
+
                 <div className="grid md:grid-cols-3 gap-4 mt-8">
                   {[
-                    { 
-                      icon: <Zap className="w-6 h-6 text-green-600 mx-auto" />, 
-                      text: 'Early access to new features' 
+                    {
+                      icon: <Zap className="w-6 h-6 text-green-600 mx-auto" />,
+                      text: 'Early access to new features'
                     },
-                    { 
-                      icon: <Shield className="w-6 h-6 text-green-600 mx-auto" />, 
-                      text: 'Exclusive launch offers' 
+                    {
+                      icon: <Shield className="w-6 h-6 text-green-600 mx-auto" />,
+                      text: 'Exclusive launch offers'
                     },
-                    { 
-                      icon: <Users className="w-6 h-6 text-green-600 mx-auto" />, 
-                      text: 'Connect with top professionals' 
+                    {
+                      icon: <Users className="w-6 h-6 text-green-600 mx-auto" />,
+                      text: 'Connect with top professionals'
                     }
                   ].map((item, i) => (
                     <div key={i} className="p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
@@ -104,12 +106,12 @@ export default function SuccessPage() {
                   ))}
                 </div>
               </div>
-              
+
               <div className="mt-8">
                 <p className="text-gray-500 text-sm mb-6">
                   Invite friends and get priority access when they join!
                 </p>
-                <Button 
+                <Button
                   onClick={() => {
                     const message = `Join me on BridgeX - Nigeria's next-gen service platform! I just joined the waitlist and you should too!`;
                     if (navigator.share) {
@@ -133,9 +135,9 @@ export default function SuccessPage() {
             </div>
           </CardContent>
         </Card>
-        
+
         <p className="text-center text-gray-500 text-sm mt-6">
-          Need help? <a href="mailto:support@bridgex.ng" className="text-green-600 hover:underline">Contact our team</a>
+          Need help? <a href={`mailto:${import.meta.VITE_PUBLIC_CONTACT_EMAIL}`} className="text-green-600 hover:underline">Contact us</a>
         </p>
       </div>
     </div>

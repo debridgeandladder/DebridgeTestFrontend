@@ -31,7 +31,7 @@ function AdminLogin() {
     setError('')
     
     try {
-      const response = await authService.login(formData.email, formData.password)
+      const response = await authService.login(formData.email?.toLowerCase(), formData.password)
       
       if (response.success) {
         toast.success('Login successful!')
