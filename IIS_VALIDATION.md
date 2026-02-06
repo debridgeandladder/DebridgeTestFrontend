@@ -141,8 +141,12 @@ You can run this PowerShell script on your IIS server to validate the setup:
 Write-Host "Checking IIS Configuration..." -ForegroundColor Green
 
 # Check if URL Rewrite Module is installed
-$rewriteModule = Get-WindowsFeature -Name Web-Server | Get-WindowsFeature -Name Web-Url-Rewrite
-if ($rewriteModule.Installed) {
+# URL Rewrite Module is an IIS extension, not a Windows Feature
+$rewriteModulePath = "$env:ProgramFiles\IIS\Microsoft URL Rewrite"
+$rewriteRegistry = "HKLM:\SOFTWARE\Microsoft\IIS Extensions\URL Rewrite"
+
+$rewriteInstalled = (Test-Path $rewriteModulePath) -or (Test-Path $rewriteRegistry)
+if ($rewriteInstalled) {
     Write-Host "✓ URL Rewrite Module is installed" -ForegroundColor Green
 } else {
     Write-Host "✗ URL Rewrite Module is NOT installed" -ForegroundColor Red
