@@ -61,7 +61,6 @@ Write-Host ""
 
 # Step 1: Check if URL Rewrite Module is installed
 Write-Host "[1/6] Checking URL Rewrite Module..." -ForegroundColor Yellow
-$rewriteModule = Get-WindowsFeature -Name "Web-Http-Redirect" -ErrorAction SilentlyContinue
 $urlRewriteInstalled = Test-Path "HKLM:\SOFTWARE\Microsoft\IIS Extensions\URL Rewrite"
 
 if (-not $urlRewriteInstalled) {
